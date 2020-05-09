@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">DemoAplplication</string>
+    <string name="name">Name</string>
+    <string name="email_id">Email id</string>
+    <string name="search">search</string>
+    <string name="login" />
+    <string name="Login">Login</string>
+    <string name="favorite">Favorite</string>
+</resources>
