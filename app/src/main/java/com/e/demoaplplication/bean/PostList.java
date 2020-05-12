@@ -4,7 +4,9 @@ package com.e.demoaplplication.bean;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PostList {
+import java.util.List;
+
+public class PostList  {
 
     @SerializedName("login")
     @Expose
