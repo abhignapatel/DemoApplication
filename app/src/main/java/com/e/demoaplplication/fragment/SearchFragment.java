@@ -2,7 +2,6 @@ package com.e.demoaplplication.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -14,28 +13,39 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.e.demoaplplication.Api;
 import com.e.demoaplplication.R;
+import com.e.demoaplplication.adapter.FavoriteListAdapter;
 import com.e.demoaplplication.adapter.SearchListAdapter;
 import com.e.demoaplplication.bean.PostList;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import database.FavDataBase;
+import listener.FavClickListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SearchFragment extends Fragment   {
+public class SearchFragment extends Fragment implements FavClickListener {
 
     private List<PostList> datalist = new ArrayList<>();
     private RecyclerView recyclerView;
     private EditText editText;
+    SearchListAdapter adapter;
+    FavDataBase favDataBase;
+    TextView itemName,itemLogin,itemImage,favstatus;
+
 
     @Nullable
     @Override
@@ -45,6 +55,7 @@ public class SearchFragment extends Fragment   {
        recyclerView = view.findViewById(R.id.recyclerView);
        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
        recyclerView.setLayoutManager(layoutManager);
+       adapter = new SearchListAdapter(datalist,getContext(),this);
        editText = view.findViewById(R.id.searchedit);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -88,8 +99,7 @@ public class SearchFragment extends Fragment   {
 
                 datalist.add(response.body());
                 editText.setText("");
-                RecyclerView.Adapter adapter = new SearchListAdapter(datalist,getContext());
-                recyclerView.setAdapter(adapter);
+                adapter.addFav(datalist);
 
             }
 
@@ -100,4 +110,12 @@ public class SearchFragment extends Fragment   {
         });
     }
 
+    @Override
+    public void onFavClick() {
+             favDataBase = new FavDataBase(getContext());
+             favDataBase.addFavData(itemName.getText().toString(),
+                     itemLogin.getText().toString(),itemImage.getText().toString(),favstatus.getText().toString());
+        Intent intent = new Intent(getActivity(), FavoriteListAdapter.class);
+        startActivity(intent);
+    }
 }

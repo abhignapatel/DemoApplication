@@ -1,31 +1,42 @@
 package com.e.demoaplplication.bean;
 
+import androidx.annotation.NonNull;
+
 public class FavoriteList {
-    private  String image;
-    private String name;
-    private String login;
+    private  String itemImage;
+    private String itemName;
+    private String itemLogin;
+    private String favstatus;
 
-    public String getImage() {
-        return image;
+    public String getItemImage() {
+        return itemImage;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public String getItemName() {
+        return itemName;
     }
 
-    public String getName() {
-        return name;
+    public String getItemLogin() {
+        return itemLogin;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFavstatus() {
+        return favstatus;
     }
 
-    public String getLogin() {
-        return login;
+    public void setItemImage(String itemImage) {
+        this.itemImage = itemImage;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public void setItemLogin(String itemLogin) {
+        this.itemLogin = itemLogin;
+    }
+
+    public void setFavstatus(String favstatus) {
+        this.favstatus = favstatus;
     }
 }

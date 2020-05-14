@@ -6,18 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.e.demoaplplication.R;
 import com.e.demoaplplication.bean.FavoriteList;
+
 import java.util.List;
 
 public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapter.ViewHolder> {
-    List<FavoriteList> favoriteList ;
-    ImageView Image,Icon;
+    private List<FavoriteList> favoriteList ;
+    private   ImageView Image,Icon;
     Context context;
-   public FavoriteListAdapter(List<FavoriteList> favoriteList, Context context){
+     public FavoriteListAdapter(List<FavoriteList> favoriteList, Context context){
        this.context= context;
       this.favoriteList = favoriteList;
 
@@ -31,9 +34,9 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
 
     @Override
     public void onBindViewHolder( FavoriteListAdapter.ViewHolder ViewHolder, int position) {
-        Glide.with(context).load(favoriteList.get(position).getImage()).into(Image);
-        ViewHolder.Name.setText(favoriteList.get(position).getName());
-        ViewHolder.Login.setText(favoriteList.get(position).getLogin());
+        Glide.with(context).load(favoriteList.get(position).getItemImage()).into(Image);
+        ViewHolder.Name.setText(favoriteList.get(position).getItemName());
+        ViewHolder.Login.setText(favoriteList.get(position).getItemLogin());
 
     }
 
