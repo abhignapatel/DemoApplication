@@ -13,16 +13,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.e.demoaplplication.R;
 import com.e.demoaplplication.bean.FavoriteList;
+import com.e.demoaplplication.bean.PostList;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import listener.FavClickListener;
+
 public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapter.ViewHolder> {
-    private List<FavoriteList> favoriteList ;
-    private   ImageView Image,Icon;
-    Context context;
+    private List<FavoriteList> favoriteList;
+    private Context context;
+
+
+
      public FavoriteListAdapter(List<FavoriteList> favoriteList, Context context){
        this.context= context;
       this.favoriteList = favoriteList;
+
 
     }
     @NonNull
@@ -33,10 +40,18 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
     }
 
     @Override
-    public void onBindViewHolder( FavoriteListAdapter.ViewHolder ViewHolder, int position) {
-        Glide.with(context).load(favoriteList.get(position).getItemImage()).into(Image);
-        ViewHolder.Name.setText(favoriteList.get(position).getItemName());
-        ViewHolder.Login.setText(favoriteList.get(position).getItemLogin());
+    public void onBindViewHolder(final FavoriteListAdapter.ViewHolder viewHolder, final int position) {
+        Glide.with(context).load(favoriteList.get(position).getItemImage()).into(viewHolder.Image);
+        viewHolder.Name.setText(favoriteList.get(position).getItemName());
+        viewHolder.Login.setText(favoriteList.get(position).getItemLogin());
+//        viewHolder.Icon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int i =  viewHolder.getAdapterPosition();
+//                FavoriteList model = favoriteList.get(i);
+//                favClickListener.onRemove(model);
+//            }
+      //  });
 
     }
 
@@ -47,6 +62,7 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
        TextView Name,Login;
+       ImageView Image,Icon;
         public ViewHolder(@NonNull View view) {
             super(view);
             Name = view.findViewById(R.id.name);
@@ -55,5 +71,4 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
             Icon = view.findViewById(R.id.icnstar);
         }
     }
-
 }

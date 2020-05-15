@@ -6,7 +6,7 @@ public class FavoriteList {
     private  String itemImage;
     private String itemName;
     private String itemLogin;
-    private String favstatus;
+
 
     public String getItemImage() {
         return itemImage;
@@ -20,9 +20,6 @@ public class FavoriteList {
         return itemLogin;
     }
 
-    public String getFavstatus() {
-        return favstatus;
-    }
 
     public void setItemImage(String itemImage) {
         this.itemImage = itemImage;
@@ -36,7 +33,5 @@ public class FavoriteList {
         this.itemLogin = itemLogin;
     }
 
-    public void setFavstatus(String favstatus) {
-        this.favstatus = favstatus;
-    }
+
 }

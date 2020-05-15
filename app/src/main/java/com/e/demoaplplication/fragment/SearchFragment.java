@@ -1,7 +1,7 @@
 package com.e.demoaplplication.fragment;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,8 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.e.demoaplplication.Api;
 import com.e.demoaplplication.R;
-import com.e.demoaplplication.adapter.FavoriteListAdapter;
 import com.e.demoaplplication.adapter.SearchListAdapter;
+import com.e.demoaplplication.bean.FavoriteList;
 import com.e.demoaplplication.bean.PostList;
 
 import java.util.ArrayList;
@@ -42,9 +42,8 @@ public class SearchFragment extends Fragment implements FavClickListener {
     private List<PostList> datalist = new ArrayList<>();
     private RecyclerView recyclerView;
     private EditText editText;
-    SearchListAdapter adapter;
-    FavDataBase favDataBase;
-    TextView itemName,itemLogin,itemImage,favstatus;
+    private SearchListAdapter adapter;
+    private FavDataBase favDataBase;
 
 
     @Nullable
@@ -56,6 +55,9 @@ public class SearchFragment extends Fragment implements FavClickListener {
        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
        recyclerView.setLayoutManager(layoutManager);
        adapter = new SearchListAdapter(datalist,getContext(),this);
+        favDataBase = new FavDataBase(getContext());
+
+       recyclerView.setAdapter(adapter);
        editText = view.findViewById(R.id.searchedit);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -110,12 +112,25 @@ public class SearchFragment extends Fragment implements FavClickListener {
         });
     }
 
+//    @Override
+//    public void onFavClick() {
+////        Toast.makeText(getContext(),"add to fav",Toast.LENGTH_LONG).show();
+//             favDataBase = new FavDataBase(getContext());
+//             favDataBase.addFavData(itemName.getText().toString(),
+//                     itemLogin.getText().toString(),itemImage.getText().toString(),favstatus.getText().toString());
+//        Intent intent = new Intent(getActivity(), FavoriteListAdapter.class);
+//        startActivity(intent);
+//    }
+
     @Override
-    public void onFavClick() {
-             favDataBase = new FavDataBase(getContext());
-             favDataBase.addFavData(itemName.getText().toString(),
-                     itemLogin.getText().toString(),itemImage.getText().toString(),favstatus.getText().toString());
-        Intent intent = new Intent(getActivity(), FavoriteListAdapter.class);
-        startActivity(intent);
+    public void onFavClick(PostList model) {
+
+//           favDataBase = new FavDataBase(getContext());
+            favDataBase.addFavData(model.getName(),model.getLogin(),model.getAvatarUrl());
     }
+
+//    @Override
+//    public void onRemove(FavoriteList model) {
+//        favDataBase.removeFavData(model.getItemLogin());
+//    }
 }
