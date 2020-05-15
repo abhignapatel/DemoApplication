@@ -11,14 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.e.demoaplplication.R;
 import com.e.demoaplplication.bean.FavoriteList;
-import com.e.demoaplplication.bean.PostList;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import listener.FavClickListener;
 
 public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapter.ViewHolder> {
     private List<FavoriteList> favoriteList;
