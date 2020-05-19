@@ -1,9 +1,8 @@
 package listener;
 
-import com.e.demoaplplication.bean.FavoriteList;
-import com.e.demoaplplication.bean.PostList;
+import com.e.demoaplplication.bean.PostModel;
 
 public interface FavClickListener {
-       void onFavClick(PostList model);
-//       void onRemove(FavoriteList model);
+       void onFavClick(PostModel model);
+       void onRemove(PostModel model);
    }

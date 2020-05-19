@@ -8,8 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class FragmentAdapter extends FragmentPagerAdapter {
 
-    FragmentAdapter(FragmentManager fm)
-    {
+    FragmentAdapter(FragmentManager fm) {
         super(fm);
     }
 

@@ -1,11 +1,21 @@
 package com.e.demoaplplication.bean;
 
-public class PostList {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
+public class PostModel {
+
+    @SerializedName("login")
+    @Expose
     private String login;
+    @SerializedName("avatar_url")
+    @Expose
     private String avatarUrl;
+    @SerializedName("name")
+    @Expose
     private String name;
     private boolean isFavorite;
+
 
     public String getLogin() {
         return login;

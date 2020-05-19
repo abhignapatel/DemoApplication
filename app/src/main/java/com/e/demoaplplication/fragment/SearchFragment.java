@@ -1,7 +1,6 @@
 package com.e.demoaplplication.fragment;
 
 import android.content.Context;
-import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -23,8 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.e.demoaplplication.Api;
 import com.e.demoaplplication.R;
 import com.e.demoaplplication.adapter.SearchListAdapter;
-import com.e.demoaplplication.bean.FavoriteList;
-import com.e.demoaplplication.bean.PostList;
+import com.e.demoaplplication.bean.PostModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,26 +37,31 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchFragment extends Fragment implements FavClickListener {
 
-    private List<PostList> datalist = new ArrayList<>();
-    private RecyclerView recyclerView;
+    private List<PostModel> postModels = new ArrayList<>();
     private EditText editText;
     private SearchListAdapter adapter;
     private FavDataBase favDataBase;
-
+    private static final String TAG = "SearchFragment";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       View view =  inflater.inflate(R.layout.search_fragment, container, false);
+        View view = inflater.inflate(R.layout.search_fragment, container, false);
 
-       recyclerView = view.findViewById(R.id.recyclerView);
-       RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-       recyclerView.setLayoutManager(layoutManager);
-       adapter = new SearchListAdapter(datalist,getContext(),this);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new SearchListAdapter(postModels, getContext(), this);
+        recyclerView.setAdapter(adapter);
+
         favDataBase = new FavDataBase(getContext());
+       List<PostModel> allData = favDataBase.getAllData();
+//        Toast.makeText(getContext(),"get data" + allData ,Toast.LENGTH_LONG).show();
+        Log.e(TAG, "get data" + allData);
+        editText = view.findViewById(R.id.searchedit);
 
-       recyclerView.setAdapter(adapter);
-       editText = view.findViewById(R.id.searchedit);
+
+        //show the search btn on keyboard
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -66,10 +69,10 @@ public class SearchFragment extends Fragment implements FavClickListener {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     InputMethodManager inputMethodManager = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     assert inputMethodManager != null;
-                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(),0);
+                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);//hide keyboard after search
 
-                    boolean repeat = false;
-                    for (PostList i : datalist) {
+                    boolean repeat = false;// don't repeat data
+                    for (PostModel i : postModels) {
                         if (i.getLogin().equals(editText.getText().toString())) {
                             Toast.makeText(getContext(), "repeat data", Toast.LENGTH_LONG).show();
                             repeat = true;
@@ -89,48 +92,44 @@ public class SearchFragment extends Fragment implements FavClickListener {
 
     private void initView() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Api.BASE_URL )
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+            .baseUrl(Api.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
 
-        Api  api = retrofit.create(Api.class);
-        Call<PostList> call = api.getPostList(editText.getText().toString());
-        call.enqueue(new Callback<PostList>() {
+        Api api = retrofit.create(Api.class);
+        Call<PostModel> call = api.getPostList(editText.getText().toString());
+        call.enqueue(new Callback<PostModel>() {
             @Override
-            public void onResponse(Call<PostList> call, Response<PostList> response) {
+            public void onResponse(@NonNull Call<PostModel> call, @NonNull Response<PostModel> response) {
 
-                datalist.add(response.body());
+                Log.e(TAG, response.toString());
+
+                PostModel body = response.body();
+                String login = body.getLogin();
+                boolean available = favDataBase.isThisLoginAvailable(login);
+                body.setFavorite(available);
+                //is this login available in fav db
+                postModels.add(body);
                 editText.setText("");
-                adapter.addFav(datalist);
+                adapter.addFav(postModels);//send the data to adapter
 
             }
 
             @Override
-            public void onFailure(Call<PostList> call, Throwable t) {
-                Log.d("error",t.getMessage());
+            public void onFailure(@NonNull Call<PostModel> call, @NonNull Throwable t) {
+                Log.d("error", t.getMessage());
             }
         });
     }
 
-//    @Override
-//    public void onFavClick() {
-////        Toast.makeText(getContext(),"add to fav",Toast.LENGTH_LONG).show();
-//             favDataBase = new FavDataBase(getContext());
-//             favDataBase.addFavData(itemName.getText().toString(),
-//                     itemLogin.getText().toString(),itemImage.getText().toString(),favstatus.getText().toString());
-//        Intent intent = new Intent(getActivity(), FavoriteListAdapter.class);
-//        startActivity(intent);
-//    }
-
     @Override
-    public void onFavClick(PostList model) {
-
-//           favDataBase = new FavDataBase(getContext());
-            favDataBase.addFavData(model.getName(),model.getLogin(),model.getAvatarUrl());
+    public void onFavClick(PostModel model) {
+        favDataBase.addFavData(model);
     }
 
-//    @Override
-//    public void onRemove(FavoriteList model) {
-//        favDataBase.removeFavData(model.getItemLogin());
-//    }
+    @Override
+    public void onRemove(PostModel model) {
+        favDataBase.removeFavData(model);
+    }
+
 }

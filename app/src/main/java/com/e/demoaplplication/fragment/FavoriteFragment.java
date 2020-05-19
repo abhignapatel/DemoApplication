@@ -14,30 +14,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.e.demoaplplication.R;
 import com.e.demoaplplication.adapter.FavoriteListAdapter;
 import com.e.demoaplplication.bean.FavoriteList;
-import com.e.demoaplplication.bean.PostList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import listener.FavClickListener;
-
 public class FavoriteFragment extends Fragment  {
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private FavoriteListAdapter favoriteListAdapter;
     private List<FavoriteList> favoriteList = new ArrayList<>();
+
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.favorite_fragment,container,false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         favoriteListAdapter = new FavoriteListAdapter(favoriteList,getContext());
-       recyclerView.setAdapter(favoriteListAdapter);
+        recyclerView.setAdapter(favoriteListAdapter);
 
        return view;
+    }
+
+    public void setFavoriteList(List<FavoriteList> favoriteList) {
+        this.favoriteList = favoriteList;
+        favoriteListAdapter.addData(this.favoriteList);
     }
 }
