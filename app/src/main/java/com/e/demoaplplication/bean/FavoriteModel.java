@@ -1,7 +1,13 @@
 package com.e.demoaplplication.bean;
 
 
-public class FavoriteList {
+import android.widget.ImageView;
+
+import androidx.databinding.BindingAdapter;
+
+import com.bumptech.glide.Glide;
+
+public class FavoriteModel {
 
     private  String avatarUrl;
     private String name;
@@ -32,6 +38,7 @@ public class FavoriteList {
     public void setLogin(String login) {
         this.login = login;
     }
+
 
 
 }

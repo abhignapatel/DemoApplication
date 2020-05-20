@@ -7,13 +7,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.e.demoaplplication.R;
 import com.e.demoaplplication.adapter.FavoriteListAdapter;
-import com.e.demoaplplication.bean.FavoriteList;
+import com.e.demoaplplication.bean.FavoriteModel;
+import com.e.demoaplplication.databinding.FavoriteFragmentBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ import java.util.List;
 public class FavoriteFragment extends Fragment  {
     private RecyclerView recyclerView;
     private FavoriteListAdapter favoriteListAdapter;
-    private List<FavoriteList> favoriteList = new ArrayList<>();
+    private List<FavoriteModel> favoriteModel = new ArrayList<>();
 
 
 
@@ -29,19 +31,22 @@ public class FavoriteFragment extends Fragment  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.favorite_fragment,container,false);
+        FavoriteFragmentBinding favoriteFragmentBinding = DataBindingUtil.inflate(inflater,R.layout.favorite_fragment,container,false);
+        View view = favoriteFragmentBinding.getRoot();
 
         recyclerView = view.findViewById(R.id.recyclerView);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        favoriteListAdapter = new FavoriteListAdapter(favoriteList,getContext());
+
+        favoriteListAdapter = new FavoriteListAdapter(favoriteModel,getContext());
         recyclerView.setAdapter(favoriteListAdapter);
 
        return view;
     }
 
-    public void setFavoriteList(List<FavoriteList> favoriteList) {
-        this.favoriteList = favoriteList;
-        favoriteListAdapter.addData(this.favoriteList);
+    public void setFavoriteModel(List<FavoriteModel> favoriteModel) {
+        this.favoriteModel = favoriteModel;
+        favoriteListAdapter.addData(this.favoriteModel);
     }
 }

@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <data>
+        <variable
+            name="postModel"
+            type="com.e.demoaplplication.bean.PostModel" />
+    </data>
+    
+    <LinearLayout
     android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -14,4 +22,5 @@
         android:padding="14dp"
         tools:listitem="@layout/item_list">
     </androidx.recyclerview.widget.RecyclerView>
-</LinearLayout>
+    </LinearLayout>
+</layout>

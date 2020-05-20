@@ -1,15 +1,18 @@
 package com.e.demoaplplication.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Icon;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.e.demoaplplication.R;
-import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.e.demoaplplication.R;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
 import com.e.demoaplplication.bean.PostModel;
+import com.e.demoaplplication.databinding.ItemListBinding;
 import java.util.List;
 import listener.FavClickListener;
 
@@ -19,6 +22,7 @@ public class SearchListAdapter extends
     private Context context;
     private FavClickListener favClickListener;
     private static final String TAG = "SearchListAdapter";
+    ItemListBinding itemListBinding;
 
 
     public SearchListAdapter(List<PostModel> postModels, Context context, FavClickListener favClickListener) {
@@ -29,8 +33,9 @@ public class SearchListAdapter extends
 
     //    @Override
       public SearchListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);
-            final ViewHolder viewHolder = new ViewHolder(view);
+
+          itemListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_list,parent,false);
+          final ViewHolder viewHolder = new ViewHolder(itemListBinding);
 ////        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -44,17 +49,20 @@ public class SearchListAdapter extends
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
 
-        Glide.with(context).load(postModels.get(position).getAvatarUrl()).into(viewHolder.Image);
-        viewHolder.Name.setText(postModels.get(position).getName());
-        viewHolder.Login.setText(postModels.get(position).getLogin());
+        PostModel postModel = postModels.get(position);
+       viewHolder.itemListBinding.setPostModel(postModel);
+
+        Glide.with(context).load(postModels.get(viewHolder.getAdapterPosition()).getAvatarUrl())
+            .into(viewHolder.itemListBinding.image);
+
 
         if (postModels.get(viewHolder.getAdapterPosition()).isFavorite()){
-            viewHolder.Icon.setImageResource(android.R.drawable.star_big_on);
+            viewHolder.itemListBinding.icnstar.setImageResource(android.R.drawable.star_big_on);
         } else {
-            viewHolder.Icon.setImageResource(android.R.drawable.star_big_off);
+            viewHolder.itemListBinding.icnstar.setImageResource(android.R.drawable.star_big_off);
 
         }
-        viewHolder.Icon.setOnClickListener(new View.OnClickListener() {
+        viewHolder.itemListBinding.icnstar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int i =  viewHolder.getAdapterPosition();// search array list of index
@@ -82,16 +90,12 @@ public class SearchListAdapter extends
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView Name, Login;
-        ImageView Image,Icon;
 
-        public ViewHolder(View view) {
-            super(view);
-            Icon = view.findViewById(R.id.icnstar);
-            Image = view.findViewById(R.id.image);
-            Name = view.findViewById(R.id.name);
-            Login = view.findViewById(R.id.login);
+        ItemListBinding itemListBinding;
 
+        public ViewHolder(ItemListBinding view) {
+            super(view.getRoot());
+            itemListBinding = view;
         }
     }
 
@@ -99,6 +103,5 @@ public class SearchListAdapter extends
         this.postModels = postModels;
         notifyDataSetChanged();
     }
-
 
 }

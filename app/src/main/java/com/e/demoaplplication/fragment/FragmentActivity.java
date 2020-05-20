@@ -3,13 +3,15 @@ package com.e.demoaplplication.fragment;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.e.demoaplplication.R;
-import com.e.demoaplplication.bean.FavoriteList;
+import com.e.demoaplplication.bean.FavoriteModel;
 import com.e.demoaplplication.bean.PostModel;
+import com.e.demoaplplication.databinding.ActivityFragmentBinding;
 import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ public class FragmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
+      ActivityFragmentBinding activityFragmentBinding= DataBindingUtil.setContentView(this,R.layout.activity_fragment);
         favDataBase = new FavDataBase(getApplicationContext());
 
         viewPager = findViewById(R.id.pager);
@@ -42,19 +44,19 @@ public class FragmentActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 if ("Favorite".equals(tab.getText())) {
                     List<PostModel> allData = favDataBase.getAllData();
-                    List<FavoriteList> favoriteLists = new ArrayList<>();
+                    List<FavoriteModel> favoriteModels = new ArrayList<>();
 
                     for (int i = 0; i < allData.size(); i++) {
                         PostModel postModel = allData.get(i);
-                        FavoriteList favoriteModel = new FavoriteList();
+                        FavoriteModel favoriteModel = new FavoriteModel();
                         favoriteModel.setAvatarUrl(postModel.getAvatarUrl());
                         favoriteModel.setName(postModel.getName());
                         favoriteModel.setLogin(postModel.getLogin());
 
-                        favoriteLists.add(favoriteModel);
+                        favoriteModels.add(favoriteModel);
                     }
 
-                    favoriteFragment.setFavoriteList(favoriteLists);
+                    favoriteFragment.setFavoriteModel(favoriteModels);
 
                 }
                 viewPager.setCurrentItem(tab.getPosition());

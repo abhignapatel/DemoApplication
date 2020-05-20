@@ -1,5 +1,11 @@
 package com.e.demoaplplication.bean;
 
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import androidx.databinding.BindingAdapter;
+
+import com.bumptech.glide.Glide;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -15,6 +21,15 @@ public class PostModel {
     @Expose
     private String name;
     private boolean isFavorite;
+    public PostModel(String login,String avatarUrl,String name, boolean isFavorite){
+        this.avatarUrl=avatarUrl;
+        this.name=name;
+        this.login=login;
+        this.isFavorite=isFavorite;
+    }
+    public PostModel(){
+
+    }
 
 
     public String getLogin() {
@@ -44,4 +59,6 @@ public class PostModel {
     public boolean isFavorite() { return isFavorite; }
 
     public void setFavorite(boolean favorite) { isFavorite = favorite; }
+
+
 }

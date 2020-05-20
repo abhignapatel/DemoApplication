@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.e.demoaplplication.Api;
 import com.e.demoaplplication.R;
 import com.e.demoaplplication.adapter.SearchListAdapter;
 import com.e.demoaplplication.bean.PostModel;
+import com.e.demoaplplication.databinding.SearchFragmentBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +48,14 @@ public class SearchFragment extends Fragment implements FavClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.search_fragment, container, false);
+      SearchFragmentBinding searchFragmentBinding  = DataBindingUtil.inflate(inflater,R.layout.search_fragment, container, false);
+      View view  = searchFragmentBinding.getRoot();
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
+
         adapter = new SearchListAdapter(postModels, getContext(), this);
         recyclerView.setAdapter(adapter);
 
@@ -58,6 +63,7 @@ public class SearchFragment extends Fragment implements FavClickListener {
        List<PostModel> allData = favDataBase.getAllData();
 //        Toast.makeText(getContext(),"get data" + allData ,Toast.LENGTH_LONG).show();
         Log.e(TAG, "get data" + allData);
+
         editText = view.findViewById(R.id.searchedit);
 
 

@@ -1,45 +1,56 @@
 package com.e.demoaplplication.adapter;
 
 import android.content.Context;
+import android.provider.Settings;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.e.demoaplplication.R;
-import com.e.demoaplplication.bean.FavoriteList;
+import com.e.demoaplplication.bean.FavoriteModel;
+import com.e.demoaplplication.databinding.ItemListBinding;
+import com.e.demoaplplication.databinding.ItemListFavBinding;
+
 import java.util.List;
 
 
 
 public class FavoriteListAdapter extends
     RecyclerView.Adapter<FavoriteListAdapter.ViewHolder> {
-    private List<FavoriteList> favoriteList;
+    private List<FavoriteModel> favoriteModel;
     private Context context;
+    ItemListFavBinding binding;
 
 
-    public FavoriteListAdapter(List<FavoriteList> favoriteList, Context context){
+    public FavoriteListAdapter(List<FavoriteModel> favoriteModel, Context context){
        this.context= context;
-      this.favoriteList = favoriteList;
+      this.favoriteModel = favoriteModel;
     }
 
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-     View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list,parent,false);
-        return new ViewHolder(view);
+
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        binding = ItemListFavBinding.bind(inflater.inflate(R.layout.item_list_fav, parent, false));
+
+        return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(final FavoriteListAdapter.ViewHolder viewHolder, final int position) {
-        Glide.with(context).load(favoriteList.get(position).getAvatarUrl()).into(viewHolder.Image);
-        viewHolder.Name.setText(favoriteList.get(position).getName());
-        viewHolder.Login.setText(favoriteList.get(position).getLogin());
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
 
+     FavoriteModel favoriteModels = favoriteModel.get(position);
+     viewHolder.itemListBinding.setFavoriteModel(favoriteModels);
+
+     Glide.with(context).load(favoriteModel.get(viewHolder.getAdapterPosition()).getAvatarUrl()).into(viewHolder.itemListBinding.image);
 
 //        viewHolder.Icon.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -56,24 +67,21 @@ public class FavoriteListAdapter extends
 
     @Override
     public int getItemCount() {
-        return favoriteList.size();
+        return favoriteModel.size();
     }
 
-    public void addData(List<FavoriteList> favoriteList) {
-        this.favoriteList = favoriteList;
+    public void addData(List<FavoriteModel> favoriteModel) {
+        this.favoriteModel = favoriteModel;
         notifyDataSetChanged();
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-       TextView Name,Login;
-       ImageView Image,Icon;
-        public ViewHolder(@NonNull View view) {
-            super(view);
-            Name = view.findViewById(R.id.name);
-            Login = view.findViewById(R.id.login);
-            Image = view.findViewById(R.id.image);
-            Icon = view.findViewById(R.id.icnstar);
+
+        ItemListFavBinding itemListBinding;
+        public ViewHolder(@NonNull ItemListFavBinding view) {
+            super(view.getRoot());
+            itemListBinding=view;
 
         }
     }
