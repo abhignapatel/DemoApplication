@@ -1,15 +1,10 @@
 package com.e.demoaplplication.bean;
 
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-
-import androidx.databinding.BindingAdapter;
-
-import com.bumptech.glide.Glide;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
-public class PostModel {
+public class PostModel implements Serializable {
 
     @SerializedName("login")
     @Expose
@@ -20,14 +15,25 @@ public class PostModel {
     @SerializedName("name")
     @Expose
     private String name;
+    private  String email;
+    private String company;
+    @SerializedName("follower_Url")
+    @Expose
+    private String followerUrl;
     private boolean isFavorite;
-    public PostModel(String login,String avatarUrl,String name, boolean isFavorite){
+
+
+    public PostModel(String login,String avatarUrl,String name, boolean isFavorite,String followerUrl, String company,String email) {
         this.avatarUrl=avatarUrl;
         this.name=name;
         this.login=login;
         this.isFavorite=isFavorite;
+        this.email=email;
+        this.company=company;
+        this.followerUrl=followerUrl;
     }
-    public PostModel(){
+
+    public PostModel() {
 
     }
 
@@ -60,5 +66,27 @@ public class PostModel {
 
     public void setFavorite(boolean favorite) { isFavorite = favorite; }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setFollowerUrl(String followerUrl) {
+        this.followerUrl = followerUrl;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getFollowerUrl() {
+        return followerUrl;
+    }
+
+    public String getCompany() {
+        return company;
+    }
 }

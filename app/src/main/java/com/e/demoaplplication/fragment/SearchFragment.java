@@ -29,15 +29,15 @@ import com.e.demoaplplication.databinding.SearchFragmentBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.FavDataBase;
-import listener.FavClickListener;
+import com.e.demoaplplication.database.FavDataBase;
+import com.e.demoaplplication.listener.FavClickListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SearchFragment extends Fragment implements FavClickListener {
+public class SearchFragment extends Fragment implements FavClickListener{
 
     private List<PostModel> postModels = new ArrayList<>();
     private EditText editText;
@@ -84,7 +84,7 @@ public class SearchFragment extends Fragment implements FavClickListener {
                             repeat = true;
                         }
                     }
-                    if (!repeat) {
+                         if (!repeat) {
                         initView();
                     }
                     return true;

@@ -1,4 +1,4 @@
-package database;
+package com.e.demoaplplication.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -58,7 +58,7 @@ public class FavDataBase extends SQLiteOpenHelper {
         contentValues.put(KEY_LOGIN, model.getLogin());
         contentValues.put(KEY_IMAGE, model.getAvatarUrl());
         long insert = sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
-        Log.d("database", String.valueOf(insert));
+        Log.d("insert data", String.valueOf(insert));
 
     }
 
@@ -83,14 +83,14 @@ public class FavDataBase extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         ArrayList<PostModel> arrayList = new ArrayList<>();
         while (cursor.moveToNext()) {
-         PostModel model = new PostModel();
+            PostModel model = new PostModel();
             model.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
             model.setAvatarUrl(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
             model.setLogin(cursor.getString(cursor.getColumnIndex(KEY_LOGIN)));
-           arrayList.add(model);
+            arrayList.add(model);
         }
-        cursor.close();
-        return arrayList;
+         cursor.close();
+         return arrayList;
     }
 
     public boolean isThisLoginAvailable(String login){

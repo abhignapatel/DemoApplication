@@ -1,20 +1,19 @@
 package com.e.demoaplplication.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Icon;
-import android.media.Image;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.bumptech.glide.Glide;
+import com.e.demoaplplication.ItemActivity;
 import com.e.demoaplplication.R;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import com.e.demoaplplication.bean.PostModel;
 import com.e.demoaplplication.databinding.ItemListBinding;
 import java.util.List;
-import listener.FavClickListener;
+import com.e.demoaplplication.listener.FavClickListener;
 
 public class SearchListAdapter extends
     RecyclerView.Adapter<SearchListAdapter.ViewHolder> {
@@ -22,7 +21,7 @@ public class SearchListAdapter extends
     private Context context;
     private FavClickListener favClickListener;
     private static final String TAG = "SearchListAdapter";
-    ItemListBinding itemListBinding;
+    private ItemListBinding itemListBinding;
 
 
     public SearchListAdapter(List<PostModel> postModels, Context context, FavClickListener favClickListener) {
@@ -47,12 +46,11 @@ public class SearchListAdapter extends
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final ViewHolder viewHolder,  int position) {
 
-        PostModel postModel = postModels.get(position);
+        final PostModel postModel = postModels.get(viewHolder.getAdapterPosition());
        viewHolder.itemListBinding.setPostModel(postModel);
-
-        Glide.with(context).load(postModels.get(viewHolder.getAdapterPosition()).getAvatarUrl())
+       Glide.with(context).load(postModels.get(viewHolder.getAdapterPosition()).getAvatarUrl())
             .into(viewHolder.itemListBinding.image);
 
 
@@ -77,8 +75,15 @@ public class SearchListAdapter extends
                 }
                 postModels.set(i,model); // reset the change search data
                 notifyDataSetChanged();//refresh view after changes
-
-
+            }
+        });
+        viewHolder.itemListBinding.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ItemActivity.class);
+                //here accept interface,so will postmodel implemented interface
+                intent.putExtra("click",postModel);
+                context.startActivity(intent);
             }
         });
     }

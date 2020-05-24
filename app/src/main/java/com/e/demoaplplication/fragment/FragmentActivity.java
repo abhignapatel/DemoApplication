@@ -15,7 +15,7 @@ import com.e.demoaplplication.databinding.ActivityFragmentBinding;
 import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.List;
-import database.FavDataBase;
+import com.e.demoaplplication.database.FavDataBase;
 
 public class FragmentActivity extends AppCompatActivity {
 
@@ -43,17 +43,20 @@ public class FragmentActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if ("Favorite".equals(tab.getText())) {
+                    //show favorite data on favorite fragment
                     List<PostModel> allData = favDataBase.getAllData();
+                    //click the new element nd show in the favorite fragment
                     List<FavoriteModel> favoriteModels = new ArrayList<>();
 
                     for (int i = 0; i < allData.size(); i++) {
                         PostModel postModel = allData.get(i);
                         FavoriteModel favoriteModel = new FavoriteModel();
+                        //arrive new element in favorite list and show on the favorite fragment
                         favoriteModel.setAvatarUrl(postModel.getAvatarUrl());
                         favoriteModel.setName(postModel.getName());
                         favoriteModel.setLogin(postModel.getLogin());
 
-                        favoriteModels.add(favoriteModel);
+                        favoriteModels.add(favoriteModel); //add to new element into favoriteList fragment
                     }
 
                     favoriteFragment.setFavoriteModel(favoriteModels);

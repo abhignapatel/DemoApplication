@@ -1,28 +1,19 @@
 package com.e.demoaplplication.adapter;
 
 import android.content.Context;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.e.demoaplplication.R;
 import com.e.demoaplplication.bean.FavoriteModel;
-import com.e.demoaplplication.databinding.ItemListBinding;
 import com.e.demoaplplication.databinding.ItemListFavBinding;
-
 import java.util.List;
 
 
-
 public class FavoriteListAdapter extends
-    RecyclerView.Adapter<FavoriteListAdapter.ViewHolder> {
+    RecyclerView.Adapter<FavoriteListAdapter.ViewHolder>{
     private List<FavoriteModel> favoriteModel;
     private Context context;
     ItemListFavBinding binding;
